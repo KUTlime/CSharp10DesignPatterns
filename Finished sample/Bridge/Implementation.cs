@@ -5,10 +5,10 @@
 /// </summary>
 public abstract class Menu
 {
-    public readonly ICoupon _coupon;
+    protected readonly ICoupon _coupon;
     public abstract int CalculatePrice();
 
-    public Menu(ICoupon coupon)
+    protected Menu(ICoupon coupon)
     {
         _coupon = coupon;
     }
@@ -23,6 +23,7 @@ public class VegetarianMenu : Menu
     public VegetarianMenu(ICoupon coupon): base(coupon)
     { 
     }
+
     public override int CalculatePrice()
     {
         return 20 - _coupon.CouponValue;
