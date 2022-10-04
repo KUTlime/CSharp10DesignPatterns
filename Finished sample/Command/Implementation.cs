@@ -104,27 +104,11 @@ public class CommandManager
     }
 }
 
+public record Employee(int Id, string Name);
 
-
-public class Employee
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-
-    public Employee(int id, string name)
-    {
-        Id = id;
-        Name = name;
-    }
-}
-
-public class Manager : Employee
+public record Manager(int Id, string Name) : Employee(Id, Name)
 {
     public readonly List<Employee> Employees = new();
-    public Manager(int id, string name) 
-        : base(id, name)
-    {
-    }
 }
 
 /// <summary>
@@ -164,7 +148,6 @@ public class EmployeeManagerRepository : IEmployeeManagerRepository
         // in real-life, add additional input & error checks
         return _managers.First(m => m.Id == managerId).Employees.Any(e => e.Id == employeeId); 
     }
-
 
     /// <summary>
     /// For demo purposes, write out the data store to the console window
