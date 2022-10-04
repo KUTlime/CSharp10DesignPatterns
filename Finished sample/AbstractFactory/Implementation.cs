@@ -60,29 +60,17 @@ public class FranceShippingCostsService : IShippingCostsService
 
 public class BelgiumShoppingCartPurchaseFactory : IShoppingCartPurchaseFactory
 {
-    public IDiscountService CreateDiscountService()
-    {
-        return new BelgiumDiscountService();
-    }
+    public IDiscountService CreateDiscountService() => new BelgiumDiscountService();
 
-    public IShippingCostsService CreateShippingCostsService()
-    {
-        return new BelgiumShippingCostsService();
-    }
+    public IShippingCostsService CreateShippingCostsService() => new BelgiumShippingCostsService();
 }
 
 
 public class FranceShoppingCartPurchaseFactory : IShoppingCartPurchaseFactory
 {
-    public IDiscountService CreateDiscountService()
-    {
-        return new FranceDiscountService();
-    }
+    public IDiscountService CreateDiscountService() => new FranceDiscountService();
 
-    public IShippingCostsService CreateShippingCostsService()
-    {
-        return new FranceShippingCostsService();
-    }
+    public IShippingCostsService CreateShippingCostsService() => new FranceShippingCostsService();
 }
 
 
