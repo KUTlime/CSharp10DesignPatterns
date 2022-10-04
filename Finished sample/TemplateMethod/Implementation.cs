@@ -1,61 +1,60 @@
-﻿namespace TemplateMethod
-{ 
-    /// <summary>
-    /// AbstractClass
-    /// </summary>
-    public abstract class MailParser
-    {
-        public virtual void FindServer()
-        {
-            Console.WriteLine("Finding server...");
-        }
+﻿namespace TemplateMethod;
 
-        public abstract void AuthenticateToServer();
+/// <summary>
+/// AbstractClass
+/// </summary>
+public abstract class MailParser
+{
+    public virtual void FindServer()
+    {
+        Console.WriteLine("Finding server...");
+    }
+
+    public abstract void AuthenticateToServer();
  
 
-        public virtual string ParseHtmlMailBody(string identifier)
-        {
-            Console.WriteLine("Parsing HTML mail body...");
-            return $"This is the body of mail with id {identifier}";
-        }
-
-        /// <summary>
-        /// Template method
-        /// </summary> 
-        public string ParseMailBody(string identifier)
-        {
-            Console.WriteLine("Parsing mail body (in template method)...");
-            FindServer();
-            AuthenticateToServer();
-            return ParseHtmlMailBody(identifier);
-        }
+    public virtual string ParseHtmlMailBody(string identifier)
+    {
+        Console.WriteLine("Parsing HTML mail body...");
+        return $"This is the body of mail with id {identifier}";
     }
 
-    public class ExchangeMailParser : MailParser
+    /// <summary>
+    /// Template method
+    /// </summary> 
+    public string ParseMailBody(string identifier)
     {
-        public override void AuthenticateToServer()
-        {
-            Console.WriteLine("Connecting to Exchange");
-        }
+        Console.WriteLine("Parsing mail body (in template method)...");
+        FindServer();
+        AuthenticateToServer();
+        return ParseHtmlMailBody(identifier);
     }
+}
 
-    public class ApacheMailParser : MailParser
+public class ExchangeMailParser : MailParser
+{
+    public override void AuthenticateToServer()
     {
-        public override void AuthenticateToServer()
-        {
-            Console.WriteLine("Connecting to Apache");
-        }
+        Console.WriteLine("Connecting to Exchange");
     }
+}
 
-    public class EudoraMailParser : MailParser
+public class ApacheMailParser : MailParser
+{
+    public override void AuthenticateToServer()
     {
-        public override void FindServer()
-        {
-            Console.WriteLine("Finding Eudora server through a custom algorithm...");
-        }
-        public override void AuthenticateToServer()
-        {
-            Console.WriteLine("Connecting to Eudora");
-        }
+        Console.WriteLine("Connecting to Apache");
+    }
+}
+
+public class EudoraMailParser : MailParser
+{
+    public override void FindServer()
+    {
+        Console.WriteLine("Finding Eudora server through a custom algorithm...");
+    }
+    public override void AuthenticateToServer()
+    {
+        Console.WriteLine("Connecting to Eudora");
     }
 }

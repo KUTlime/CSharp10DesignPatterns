@@ -1,192 +1,191 @@
-﻿namespace Command
+﻿namespace Command;
+
+/// <summary>
+/// ICommand
+/// </summary>
+public interface ICommand
 {
-    /// <summary>
-    /// ICommand
-    /// </summary>
-    public interface ICommand
+    void Execute();
+    bool CanExecute();
+    void Undo();
+}
+
+/// <summary>
+/// ConcreteCommand
+/// </summary>
+public class AddEmployeeToManagerList : ICommand
+{
+    private readonly IEmployeeManagerRepository _employeeManagerRepository;
+    private readonly int _managerId;
+    private readonly Employee? _employee;
+
+    public AddEmployeeToManagerList(
+        IEmployeeManagerRepository employeeManagerRepository, 
+        int managerId, 
+        Employee? employee)
     {
-        void Execute();
-        bool CanExecute();
-        void Undo();
+        _employeeManagerRepository = employeeManagerRepository;
+        _managerId = managerId;
+        _employee = employee;
     }
 
-    /// <summary>
-    /// ConcreteCommand
-    /// </summary>
-    public class AddEmployeeToManagerList : ICommand
+    public bool CanExecute()
     {
-        private readonly IEmployeeManagerRepository _employeeManagerRepository;
-        private readonly int _managerId;
-        private readonly Employee? _employee;
+        // potentially check against business/technical rules that might block execution
 
-        public AddEmployeeToManagerList(
-            IEmployeeManagerRepository employeeManagerRepository, 
-            int managerId, 
-            Employee? employee)
+        // employee shouldn't be null
+        if (_employee == null)
         {
-            _employeeManagerRepository = employeeManagerRepository;
-            _managerId = managerId;
-            _employee = employee;
+            return false;
         }
 
-        public bool CanExecute()
+        // employee shouldn't be on the manager's list already
+        if (_employeeManagerRepository.HasEmployee(_managerId, _employee.Id))
         {
-            // potentially check against business/technical rules that might block execution
-
-            // employee shouldn't be null
-            if (_employee == null)
-            {
-                return false;
-            }
-
-            // employee shouldn't be on the manager's list already
-            if (_employeeManagerRepository.HasEmployee(_managerId, _employee.Id))
-            {
-                return false;
-            }
-
-            // other potential rule(s): ensure that an employee can only be added to  
-            // one manager's list at the same time, etc.
-            return true;
+            return false;
         }
 
-        public void Execute()
-        {
-            if (_employee == null)
-            {
-                return;
-            }
-
-            _employeeManagerRepository.AddEmployee(_managerId, _employee);
-        }
-
-        public void Undo()
-        {
-            if (_employee == null)
-            {
-                return;
-            }
-
-            _employeeManagerRepository.RemoveEmployee(_managerId, _employee);
-        }
+        // other potential rule(s): ensure that an employee can only be added to  
+        // one manager's list at the same time, etc.
+        return true;
     }
 
-    /// <summary>
-    /// Invoker
-    /// </summary>
-    public class CommandManager
+    public void Execute()
     {
-        private readonly Stack<ICommand> _commands = new Stack<ICommand>();
-
-        public void Invoke(ICommand command)
+        if (_employee == null)
         {
-            if (command.CanExecute())
-            {
-                command.Execute();
-                _commands.Push(command);
-            }
+            return;
         }
 
-        public void Undo()
+        _employeeManagerRepository.AddEmployee(_managerId, _employee);
+    }
+
+    public void Undo()
+    {
+        if (_employee == null)
         {
-            if (_commands.Any())
-            {
-                 _commands.Pop()?.Undo();
-            }
+            return;
         }
 
-        public void UndoAll()
+        _employeeManagerRepository.RemoveEmployee(_managerId, _employee);
+    }
+}
+
+/// <summary>
+/// Invoker
+/// </summary>
+public class CommandManager
+{
+    private readonly Stack<ICommand> _commands = new Stack<ICommand>();
+
+    public void Invoke(ICommand command)
+    {
+        if (command.CanExecute())
         {
-            while (_commands.Any())
-            {
-                _commands.Pop()?.Undo();
-            }
+            command.Execute();
+            _commands.Push(command);
         }
     }
 
-
-
-    public class Employee
+    public void Undo()
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-
-        public Employee(int id, string name)
+        if (_commands.Any())
         {
-            Id = id;
-            Name = name;
+            _commands.Pop()?.Undo();
         }
     }
 
-    public class Manager : Employee
+    public void UndoAll()
     {
-        public List<Employee> Employees = new();
-        public Manager(int id, string name) 
-            : base(id, name)
+        while (_commands.Any())
         {
+            _commands.Pop()?.Undo();
         }
     }
+}
 
-    /// <summary>
-    /// Receiver (interface)
-    /// </summary>
-    public interface IEmployeeManagerRepository
+
+
+public class Employee
+{
+    public int Id { get; set; }
+    public string Name { get; set; }
+
+    public Employee(int id, string name)
     {
-        void AddEmployee(int managerId, Employee employee);
-        void RemoveEmployee(int managerId, Employee employee);
-        bool HasEmployee(int managerId, int employeeId);
-        void WriteDataStore();
+        Id = id;
+        Name = name;
     }
+}
 
-    /// <summary>
-    /// Receiver (implementation)
-    /// </summary>
-    public class EmployeeManagerRepository : IEmployeeManagerRepository
+public class Manager : Employee
+{
+    public List<Employee> Employees = new();
+    public Manager(int id, string name) 
+        : base(id, name)
     {
-        // for demo purposes, use an in-memory datastore as a fake "manager list"
-        private List<Manager> _managers = new List<Manager>() 
-            { new Manager(1, "Katie"), new Manager(2, "Geoff") };
+    }
+}
+
+/// <summary>
+/// Receiver (interface)
+/// </summary>
+public interface IEmployeeManagerRepository
+{
+    void AddEmployee(int managerId, Employee employee);
+    void RemoveEmployee(int managerId, Employee employee);
+    bool HasEmployee(int managerId, int employeeId);
+    void WriteDataStore();
+}
+
+/// <summary>
+/// Receiver (implementation)
+/// </summary>
+public class EmployeeManagerRepository : IEmployeeManagerRepository
+{
+    // for demo purposes, use an in-memory datastore as a fake "manager list"
+    private List<Manager> _managers = new List<Manager>() 
+        { new Manager(1, "Katie"), new Manager(2, "Geoff") };
   
-        public void AddEmployee(int managerId, Employee employee)
-        {
-            // in real-life, add additional input & error checks
-            _managers.First(m => m.Id == managerId).Employees.Add(employee);
-        }         
+    public void AddEmployee(int managerId, Employee employee)
+    {
+        // in real-life, add additional input & error checks
+        _managers.First(m => m.Id == managerId).Employees.Add(employee);
+    }         
 
-        public void RemoveEmployee(int managerId, Employee employee)
-        {
-            // in real-life, add additional input & error checks
-            _managers.First(m => m.Id == managerId).Employees.Remove(employee);
-        }
+    public void RemoveEmployee(int managerId, Employee employee)
+    {
+        // in real-life, add additional input & error checks
+        _managers.First(m => m.Id == managerId).Employees.Remove(employee);
+    }
 
-        public bool HasEmployee(int managerId, int employeeId)
-        {
-            // in real-life, add additional input & error checks
-            return _managers.First(m => m.Id == managerId).Employees.Any(e => e.Id == employeeId); 
-        }
+    public bool HasEmployee(int managerId, int employeeId)
+    {
+        // in real-life, add additional input & error checks
+        return _managers.First(m => m.Id == managerId).Employees.Any(e => e.Id == employeeId); 
+    }
 
 
-        /// <summary>
-        /// For demo purposes, write out the data store to the console window
-        /// </summary>
-        public void WriteDataStore()
+    /// <summary>
+    /// For demo purposes, write out the data store to the console window
+    /// </summary>
+    public void WriteDataStore()
+    {
+        foreach (var manager in _managers)
         {
-            foreach (var manager in _managers)
+            Console.WriteLine($"Manager {manager.Id}, {manager.Name}");
+            if (manager.Employees.Any())
             {
-                Console.WriteLine($"Manager {manager.Id}, {manager.Name}");
-                if (manager.Employees.Any())
+                foreach (var employee in manager.Employees)
                 {
-                    foreach (var employee in manager.Employees)
-                    {
-                        Console.WriteLine($"\t Employee {employee.Id}, {employee.Name}");
-                    }
-                }
-                else
-                {
-                    Console.WriteLine($"\t No employees.");
+                    Console.WriteLine($"\t Employee {employee.Id}, {employee.Name}");
                 }
             }
-            Console.WriteLine();
+            else
+            {
+                Console.WriteLine($"\t No employees.");
+            }
         }
+        Console.WriteLine();
     }
-} 
+}

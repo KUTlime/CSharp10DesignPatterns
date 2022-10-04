@@ -1,90 +1,89 @@
-﻿namespace Iterator
+﻿namespace Iterator;
+
+public class Person
 {
-    public class Person
-    {
-        public string Name { get; set; } 
-        public string Country { get; set; }
+    public string Name { get; set; } 
+    public string Country { get; set; }
 
-        public Person(string name, string country)
-        {
-            Name = name; 
-            Country = country;
-        }
+    public Person(string name, string country)
+    {
+        Name = name; 
+        Country = country;
     }
+}
      
-    /// <summary>
-    /// Iterator
-    /// </summary>
-    public interface IPeopleIterator 
+/// <summary>
+/// Iterator
+/// </summary>
+public interface IPeopleIterator 
+{
+    Person First();
+    Person Next();
+    bool IsDone { get; }
+    Person CurrentItem { get; }
+}
+
+/// <summary>
+/// ConcreteIterator
+/// </summary>
+public class PeopleIterator : IPeopleIterator
+{
+    private PeopleCollection _peopleCollection;
+    private int _current = 0; 
+     
+    public PeopleIterator(PeopleCollection collection)
     {
-        Person First();
-        Person Next();
-        bool IsDone { get; }
-        Person CurrentItem { get; }
+        _peopleCollection = collection;
+    } 
+
+    public Person First()
+    {
+        _current = 0;
+        return _peopleCollection
+            .OrderBy(p => p.Name).ToList()[_current];
     }
 
-    /// <summary>
-    /// ConcreteIterator
-    /// </summary>
-    public class PeopleIterator : IPeopleIterator
+    public Person Next()
     {
-        private PeopleCollection _peopleCollection;
-        private int _current = 0; 
-     
-        public PeopleIterator(PeopleCollection collection)
-        {
-            _peopleCollection = collection;
-        } 
-
-        public Person First()
-        {
-            _current = 0;
+        _current++;
+        if (!IsDone)
+        {                
             return _peopleCollection
-                .OrderBy(p => p.Name).ToList()[_current];
+                .OrderBy(p => p.Name).ToList()[_current];   
         }
-
-        public Person Next()
+        else
         {
-            _current++;
-            if (!IsDone)
-            {                
-                return _peopleCollection
-                    .OrderBy(p => p.Name).ToList()[_current];   
-            }
-            else
-            {
-                return null;
-            }
+            return null;
         }
-
-        public bool IsDone
-        {
-            get { return _current >= _peopleCollection.Count; }
-        }
-
-        public Person CurrentItem
-        {
-            get { return _peopleCollection
-                    .OrderBy(p => p.Name).ToList()[_current]; }
-        }   
     }
 
-    /// <summary>
-    /// Aggregate
-    /// </summary>
-    public interface IPeopleCollection  
+    public bool IsDone
     {
-        IPeopleIterator CreateIterator();
+        get { return _current >= _peopleCollection.Count; }
     }
 
-    /// <summary>
-    /// ConcreteAggregate
-    /// </summary>
-    public class PeopleCollection : List<Person>, IPeopleCollection
+    public Person CurrentItem
     {
-        public IPeopleIterator CreateIterator()
-        {
-            return new PeopleIterator(this);
-        } 
-    }
+        get { return _peopleCollection
+            .OrderBy(p => p.Name).ToList()[_current]; }
+    }   
+}
+
+/// <summary>
+/// Aggregate
+/// </summary>
+public interface IPeopleCollection  
+{
+    IPeopleIterator CreateIterator();
+}
+
+/// <summary>
+/// ConcreteAggregate
+/// </summary>
+public class PeopleCollection : List<Person>, IPeopleCollection
+{
+    public IPeopleIterator CreateIterator()
+    {
+        return new PeopleIterator(this);
+    } 
 }
