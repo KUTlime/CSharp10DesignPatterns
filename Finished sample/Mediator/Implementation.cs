@@ -92,20 +92,20 @@ public class AccountManager : TeamMember
 /// </summary>
 public class TeamChatRoom : IChatRoom
 {
-    private readonly Dictionary<string, TeamMember> teamMembers = new();
+    private readonly Dictionary<string, TeamMember> _teamMembers = new();
 
     public void Register(TeamMember teamMember)
     {
         teamMember.SetChatroom(this);
-        if (!teamMembers.ContainsKey(teamMember.Name))
+        if (!_teamMembers.ContainsKey(teamMember.Name))
         {
-            teamMembers.Add(teamMember.Name, teamMember);
+            _teamMembers.Add(teamMember.Name, teamMember);
         }
     }
 
     public void Send(string from, string message)
     {
-        foreach (var teamMember in teamMembers.Values)
+        foreach (var teamMember in _teamMembers.Values)
         {
             teamMember.Receive(from, message);
         }
@@ -113,13 +113,13 @@ public class TeamChatRoom : IChatRoom
 
     public void Send(string from, string to, string message)
     {
-        var teamMember = teamMembers[to];
+        var teamMember = _teamMembers[to];
         teamMember?.Receive(from, message); 
     }
 
     public void SendTo<T>(string from, string message) where T : TeamMember
     {
-        foreach (var teamMember in teamMembers.Values.OfType<T>())
+        foreach (var teamMember in _teamMembers.Values.OfType<T>())
         {
             teamMember.Receive(from, message);
         }
