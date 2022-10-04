@@ -13,17 +13,7 @@ public interface ICommand
 /// <summary>
 /// Memento
 /// </summary>
-public class AddEmployeeToManagerListMemento
-{
-    public int ManagerId { get; private set; }
-    public Employee? Employee { get; private set; }
-
-    public AddEmployeeToManagerListMemento(int managerId, Employee? employee)
-    {
-        ManagerId = managerId;
-        Employee = employee;
-    }
-}
+public record AddEmployeeToManagerListMemento(int ManagerId, Employee? Employee);
 
 /// <summary>
 /// ConcreteCommand
@@ -127,7 +117,7 @@ public class CommandManager
         if (_mementos.Any())
         {
             _command?.RestoreMemento(_mementos.Pop());
-            _command?.Undo(); 
+            _command?.Undo();
         }
     }
 
@@ -143,25 +133,11 @@ public class CommandManager
 
 
 
-public class Employee
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
+public record Employee(int Id, string Name);
 
-    public Employee(int id, string name)
-    {
-        Id = id;
-        Name = name;
-    }
-}
-
-public class Manager : Employee
+public record Manager(int Id, string Name) : Employee(Id, Name)
 {
-    public List<Employee> Employees = new();
-    public Manager(int id, string name)
-        : base(id, name)
-    {
-    }
+    public readonly List<Employee> Employees = new();
 }
 
 /// <summary>
