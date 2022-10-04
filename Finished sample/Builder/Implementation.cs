@@ -33,9 +33,9 @@ public class Garage
 /// </summary>
 public abstract class CarBuilder
 {
-    public Car Car { get; private set; }
-         
-    public CarBuilder(string carType)
+    public Car Car { get; }
+
+    protected CarBuilder(string carType)
     {
         Car = new Car(carType);
     }
