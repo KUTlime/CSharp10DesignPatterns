@@ -58,7 +58,7 @@ public interface ICoupon
 /// </summary>
 public class NoCoupon : ICoupon
 {
-    public int CouponValue { get => 0; }
+    public int CouponValue => 0;
 }
 
 /// <summary>
@@ -66,7 +66,7 @@ public class NoCoupon : ICoupon
 /// </summary>
 public class OneEuroCoupon : ICoupon
 {
-    public int CouponValue { get => 1; }
+    public int CouponValue => 1;
 }
 
 /// <summary>
@@ -74,5 +74,5 @@ public class OneEuroCoupon : ICoupon
 /// </summary>
 public class TwoEuroCoupon : ICoupon
 {
-    public int CouponValue { get => 2; }
+    public int CouponValue => 2;
 }

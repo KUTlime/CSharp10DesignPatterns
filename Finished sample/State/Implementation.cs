@@ -135,7 +135,7 @@ public class GoldState : BankAccountState
 public class BankAccount
 {
     public BankAccountState BankAccountState { get; set; }
-    public decimal Balance { get { return BankAccountState.Balance; } }
+    public decimal Balance => BankAccountState.Balance;
 
     public BankAccount()
     {

@@ -13,19 +13,16 @@ public class Logger
     /// <summary>
     /// Instance
     /// </summary>
-    public static Logger Instance
-    {
-        get { return _lazyLogger.Value;  }
-        //get
-        //{
-        //    if (_instance == null)
-        //    {
-        //        _instance = new Logger();
-        //    }
-        //    return _instance;
-        //}
-    }
+    public static Logger Instance => _lazyLogger.Value;
 
+    //get
+    //{
+    //    if (_instance == null)
+    //    {
+    //        _instance = new Logger();
+    //    }
+    //    return _instance;
+    //}
     protected Logger()
     {
     }

@@ -57,10 +57,7 @@ public class PeopleIterator : IPeopleIterator
         }
     }
 
-    public bool IsDone
-    {
-        get { return _current >= _peopleCollection.Count; }
-    }
+    public bool IsDone => _current >= _peopleCollection.Count;
 
     public Person CurrentItem
     {

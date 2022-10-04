@@ -50,13 +50,11 @@ public class CodeDiscountService : DiscountService
         _code = code;
     }
 
-    public override int DiscountPercentage
-    {
+    public override int DiscountPercentage =>
         // each code returns the same fixed percentage, but a code is only 
         // valid once - include a check to so whether the code's been used before
         // ... 
-        get => 15;
-    }
+        15;
 }
 
 /// <summary>
