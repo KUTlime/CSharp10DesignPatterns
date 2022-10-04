@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace BuilderPattern;
+namespace Builder;
 
 /// <summary>
 /// Director
@@ -12,9 +12,9 @@ public class Garage
     public void Construct(CarBuilder builder)
     {
         _builder = builder;
-             
+
         _builder.BuildEngine();
-        _builder.BuildFrame(); 
+        _builder.BuildFrame();
     }
 
     // variation: the show method on the director instead of on the product.
@@ -36,14 +36,14 @@ public abstract class CarBuilder
         Car = new Car(carType);
     }
     public abstract void BuildEngine();
-    public abstract void BuildFrame(); 
+    public abstract void BuildFrame();
 }
 
 /// <summary>
 /// ConcreteBuilder1 class
 /// </summary>
 public class MiniBuilder : CarBuilder
-{ 
+{
     public MiniBuilder()
         : base("Mini")
     {
@@ -81,7 +81,7 @@ public class BMWBuilder : CarBuilder
         Car.AddPart("'5-door with metallic finish'");
     }
 }
-     
+
 
 /// <summary>
 /// Product class
@@ -90,7 +90,7 @@ public class Car
 {
     private readonly List<string> _parts = new();
     private readonly string _carType;
-         
+
     public Car(string carType)
     {
         _carType = carType;
@@ -106,12 +106,12 @@ public class Car
         var sb = new StringBuilder();
         foreach (string part in _parts)
         {
-            sb.Append($"Car of type {_carType} has part {part}. "); 
+            sb.Append($"Car of type {_carType} has part {part}. ");
         }
 
-        return sb.ToString();          
+        return sb.ToString();
     }
-} 
+}
 
 
 
