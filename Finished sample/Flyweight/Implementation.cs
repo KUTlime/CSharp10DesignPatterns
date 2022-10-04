@@ -13,7 +13,7 @@ public interface ICharacter
 /// </summary>
 public class CharacterA : ICharacter
 {
-    private char _actualCharacter = 'a';
+    private readonly char _actualCharacter = 'a';
     private string _fontFamily = string.Empty;
     private int _fontSize;
 
@@ -30,7 +30,7 @@ public class CharacterA : ICharacter
 /// </summary>
 public class CharacterB : ICharacter
 {
-    private char _actualCharacter = 'b';
+    private readonly char _actualCharacter = 'b';
     private string _fontFamily = string.Empty;
     private int _fontSize;
 
@@ -87,7 +87,7 @@ public class CharacterFactory
 public class Paragraph : ICharacter
 {
     private int _location;
-    private List<ICharacter> _characters = new();
+    private readonly List<ICharacter> _characters = new();
 
     public Paragraph(List<ICharacter> characters, int location)
     {
