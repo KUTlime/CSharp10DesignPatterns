@@ -13,50 +13,31 @@ public interface IExportService
 /// </summary>
 public class JsonExportService : IExportService
 {
-    public void Export(Order order)
-    {
-        Console.WriteLine($"Exporting {order.Name} to Json.");
-    }
+    public void Export(Order order) => Console.WriteLine($"Exporting {order.Name} for {order.Amount} for {order.Customer} to Json.");
 }
 
 /// <summary>
 /// ConcreteStrategy
 /// </summary>
-public class XMLExportService : IExportService
+public class XmlExportService : IExportService
 {
-    public void Export(Order order)
-    {
-        Console.WriteLine($"Exporting {order.Name} to XML.");
-    }
+    public void Export(Order order) => Console.WriteLine($"Exporting {order.Name} for {order.Amount} for {order.Customer}  to XML.");
 }
 
 /// <summary>
 /// ConcreteStrategy
 /// </summary>
-public class CSVExportService : IExportService
+public class CsvExportService : IExportService
 {
-    public void Export(Order order)
-    {
-        Console.WriteLine($"Exporting {order.Name} to CSV.");
-    }
+    public void Export(Order order) => Console.WriteLine($"Exporting {order.Name} for {order.Amount} for {order.Customer}  to CSV.");
 }
    
 /// <summary>
 /// Context
 /// </summary>
-public class Order
+public record Order(string Customer, int Amount, string Name)
 {
-    public string Customer { get; set; }
-    public int Amount { get; set; }
-    public string Name { get; set; }
-    public string? Description { get; set; }                 
-
-    public Order(string customer, int amount, string name)
-    {
-        Customer = customer;
-        Amount = amount;
-        Name = name;
-    }
+    public string? Description { get; set; }
 
     public void Export(IExportService exportService)
     {
