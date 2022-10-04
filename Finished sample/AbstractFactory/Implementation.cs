@@ -87,7 +87,7 @@ public class FranceShoppingCartPurchaseFactory : IShoppingCartPurchaseFactory
 
 
 /// <summary>
-/// Client class 
+/// Client class
 /// </summary>
 public class ShoppingCart
 {
@@ -104,8 +104,5 @@ public class ShoppingCart
         _orderCosts = 200;
     }
 
-    public void CalculateCosts()
-    {
-        Console.WriteLine($"Total costs = {_orderCosts - (_orderCosts / 100 * _discountService.DiscountPercentage) + _shippingCostsService.ShippingCosts }");
-    }
+    public void CalculateCosts() => Console.WriteLine($"Total costs = {_orderCosts - (_orderCosts / 100 * _discountService.DiscountPercentage) + _shippingCostsService.ShippingCosts }");
 }

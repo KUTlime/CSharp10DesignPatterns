@@ -29,8 +29,5 @@ public class Logger
     /// <summary>
     /// SingletonOperation
     /// </summary>
-    public void Log(string message)
-    {
-        Console.WriteLine($"Message to log: {message}");
-    }
+    public void Log(string message) => Console.WriteLine($"Message to log: {message}");
 }
