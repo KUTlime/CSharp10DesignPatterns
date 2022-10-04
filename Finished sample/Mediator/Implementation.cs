@@ -16,11 +16,11 @@ public interface IChatRoom
 /// </summary>
 public abstract class TeamMember
 {
-    public string Name { get; set; }
+    public string Name { get; }
 
     private IChatRoom? _chatroom;
 
-    public TeamMember(string name)
+    protected TeamMember(string name)
     {
         Name = name; 
     }
