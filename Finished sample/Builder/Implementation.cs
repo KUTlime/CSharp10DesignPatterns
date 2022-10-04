@@ -104,7 +104,7 @@ public class Car
     public override string ToString()
     {
         var sb = new StringBuilder();
-        foreach (string part in _parts)
+        foreach (var part in _parts)
         {
             sb.Append($"Car of type {_carType} has part {part}. ");
         }
@@ -199,7 +199,7 @@ public class Product
     public void Show()
     {
         Console.WriteLine("\nProduct Parts -------");
-        foreach (string part in parts)
+        foreach (var part in parts)
             Console.WriteLine(part);
     }
 }
