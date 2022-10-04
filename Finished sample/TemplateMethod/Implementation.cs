@@ -5,13 +5,10 @@
 /// </summary>
 public abstract class MailParser
 {
-    public virtual void FindServer()
-    {
-        Console.WriteLine("Finding server...");
-    }
+    public virtual void FindServer() => Console.WriteLine("Finding server...");
 
     public abstract void AuthenticateToServer();
- 
+
 
     public virtual string ParseHtmlMailBody(string identifier)
     {
