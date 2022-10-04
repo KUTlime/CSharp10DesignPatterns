@@ -120,7 +120,7 @@ public class Employee
 
 public class Manager : Employee
 {
-    public List<Employee> Employees = new();
+    public readonly List<Employee> Employees = new();
     public Manager(int id, string name) 
         : base(id, name)
     {
@@ -144,7 +144,7 @@ public interface IEmployeeManagerRepository
 public class EmployeeManagerRepository : IEmployeeManagerRepository
 {
     // for demo purposes, use an in-memory datastore as a fake "manager list"
-    private List<Manager> _managers = new() 
+    private readonly List<Manager> _managers = new()
         { new Manager(1, "Katie"), new Manager(2, "Geoff") };
   
     public void AddEmployee(int managerId, Employee employee)
