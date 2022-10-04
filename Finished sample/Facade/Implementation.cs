@@ -52,16 +52,17 @@ public class CustomerDiscountBaseService
 /// </summary>
 public class DayOfTheWeekFactorService
 {
-    public double CalculateDayOfTheWeekFactor()
-    {
+    public double CalculateDayOfTheWeekFactor() =>
         // fake calculation for demo purposes
-        switch (DateTime.UtcNow.DayOfWeek)
+        DateTime.UtcNow.DayOfWeek switch
         {
-            case DayOfWeek.Saturday:
-            case DayOfWeek.Sunday:
-                return 0.8;                
-            default:
-                return 1.2; 
-        }
-    }
+            DayOfWeek.Saturday => 0.8,
+            DayOfWeek.Sunday => 0.8,
+            DayOfWeek.Monday => 1.2,
+            DayOfWeek.Tuesday => 1.2,
+            DayOfWeek.Wednesday => 1.2,
+            DayOfWeek.Thursday => 1.2,
+            DayOfWeek.Friday => 1.2,
+            _ => 1.2
+        };
 }
