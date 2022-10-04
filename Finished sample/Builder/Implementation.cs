@@ -8,10 +8,6 @@ namespace BuilderPattern;
 public class Garage
 {
     private CarBuilder? _builder;
-         
-    public Garage()
-    {
-    }
 
     public void Construct(CarBuilder builder)
     {
