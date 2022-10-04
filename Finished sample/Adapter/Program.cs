@@ -1,5 +1,4 @@
-﻿using Adapter;
-using Adapter.ClassAdapter;
+﻿using Adapter.ClassAdapter;
 
 // adapter example (same code for object & class adapter)
 ICityAdapter adapter = new CityAdapter();
