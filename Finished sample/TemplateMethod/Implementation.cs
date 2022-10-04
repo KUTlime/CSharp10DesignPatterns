@@ -33,28 +33,17 @@ public abstract class MailParser
 
 public class ExchangeMailParser : MailParser
 {
-    public override void AuthenticateToServer()
-    {
-        Console.WriteLine("Connecting to Exchange");
-    }
+    public override void AuthenticateToServer() => Console.WriteLine("Connecting to Exchange");
 }
 
 public class ApacheMailParser : MailParser
 {
-    public override void AuthenticateToServer()
-    {
-        Console.WriteLine("Connecting to Apache");
-    }
+    public override void AuthenticateToServer() => Console.WriteLine("Connecting to Apache");
 }
 
 public class EudoraMailParser : MailParser
 {
-    public override void FindServer()
-    {
-        Console.WriteLine("Finding Eudora server through a custom algorithm...");
-    }
-    public override void AuthenticateToServer()
-    {
-        Console.WriteLine("Connecting to Eudora");
-    }
+    public override void FindServer() => Console.WriteLine("Finding Eudora server through a custom algorithm...");
+
+    public override void AuthenticateToServer() => Console.WriteLine("Connecting to Eudora");
 }
