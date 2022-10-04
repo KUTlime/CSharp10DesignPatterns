@@ -39,7 +39,7 @@ public class File : FileSystemItem
 public class Directory : FileSystemItem
 {
     private long _size;
-    private List<FileSystemItem> _fileSystemItems { get; set; } = new List<FileSystemItem>();
+    private List<FileSystemItem> _fileSystemItems { get; set; } = new();
         
     public Directory(string name, long size) : base(name)
     {

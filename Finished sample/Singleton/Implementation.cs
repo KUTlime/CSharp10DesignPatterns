@@ -7,8 +7,7 @@ public class Logger
 {
     //private static Logger? _instance;
 
-    private static readonly Lazy<Logger> _lazyLogger
-        = new Lazy<Logger>(() => new Logger());
+    private static readonly Lazy<Logger> _lazyLogger = new(() => new Logger());
 
     /// <summary>
     /// Instance

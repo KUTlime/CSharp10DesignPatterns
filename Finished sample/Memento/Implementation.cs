@@ -181,7 +181,7 @@ public interface IEmployeeManagerRepository
 public class EmployeeManagerRepository : IEmployeeManagerRepository
 {
     // for demo purposes, use an in-memory datastore as a fake "manager list"
-    private List<Manager> _managers = new List<Manager>()
+    private List<Manager> _managers = new()
         { new Manager(1, "Katie"), new Manager(2, "Geoff") };
 
     public void AddEmployee(int managerId, Employee employee)

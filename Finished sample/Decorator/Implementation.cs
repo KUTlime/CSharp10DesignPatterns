@@ -76,7 +76,7 @@ public class MessageDatabaseDecorator : MailServiceDecoratorBase
     /// <summary>
     /// A list of sent messages - a "fake" database
     /// </summary>
-    public List<string> SentMessages { get; private set; } = new List<string>();
+    public List<string> SentMessages { get; private set; } = new();
 
     public MessageDatabaseDecorator(IMailService mailService)
         : base(mailService)

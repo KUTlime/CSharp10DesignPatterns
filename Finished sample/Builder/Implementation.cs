@@ -147,7 +147,7 @@ public abstract class Builder
 /// </summary>
 public class ConcreteBuilder1 : Builder
 {
-    private Product product = new Product();
+    private Product product = new();
 
     public override void BuildPartA()
     {
@@ -170,7 +170,7 @@ public class ConcreteBuilder1 : Builder
 /// </summary>
 public class ConcreteBuilder2 : Builder
 {
-    private Product product = new Product();
+    private Product product = new();
 
     public override void BuildPartA()
     {
@@ -193,7 +193,7 @@ public class ConcreteBuilder2 : Builder
 /// </summary>
 public class Product
 {
-    private List<string> parts = new List<string>();
+    private List<string> parts = new();
 
     public void Add(string part)
     {
